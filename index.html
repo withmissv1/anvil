@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="With Miss V's ordered list of projects to build next with Claude.">
+  <title>With Miss V's Anvil</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --charcoal: #171311;
+      --charcoal-soft: #211a17;
+      --charcoal-raised: #2a211d;
+      --copper: #cf8250;
+      --copper-light: #f0b07e;
+      --ember: #e25432;
+      --ivory: #f5eadf;
+      --muted: #bcaea3;
+      --line: rgba(207, 130, 80, 0.27);
+      --line-strong: rgba(240, 176, 126, 0.62);
+      --shadow: rgba(0, 0, 0, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 85% 3%, rgba(226, 84, 50, 0.13), transparent 28rem),
+        radial-gradient(circle at 8% 18%, rgba(207, 130, 80, 0.08), transparent 24rem),
+        var(--charcoal);
+      color: var(--ivory);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    button,
+    code {
+      font: inherit;
+    }
+
+    .page {
+      width: min(100% - 2rem, 860px);
+      margin: 0 auto;
+      padding: 4.5rem 0 3rem;
+    }
+
+    .site-header {
+      margin-bottom: 4rem;
+    }
+
+    .eyebrow,
+    .section-label,
+    .project-number,
+    .detail-label,
+    .prompt-label {
+      margin: 0;
+      color: var(--copper-light);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      text-wrap: balance;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0.75rem 0 1rem;
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-size: clamp(3rem, 10vw, 5.75rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+    }
+
+    .intro {
+      max-width: 640px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+    }
+
+    .section-heading {
+      margin: 0.45rem 0 1.5rem;
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .start-here {
+      margin-bottom: 5rem;
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 1.25rem;
+      background: rgba(33, 26, 23, 0.92);
+      box-shadow: 0 1.25rem 3.5rem var(--shadow);
+    }
+
+    .project-card.primary {
+      border-color: var(--line-strong);
+      background:
+        linear-gradient(145deg, rgba(226, 84, 50, 0.11), transparent 44%),
+        var(--charcoal-soft);
+      box-shadow:
+        0 0 0 1px rgba(226, 84, 50, 0.08),
+        0 1.75rem 5rem rgba(0, 0, 0, 0.42);
+    }
+
+    .project-card.primary::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--ember), var(--copper-light));
+      content: "";
+    }
+
+    .project-content {
+      padding: clamp(1.35rem, 5vw, 2.75rem);
+    }
+
+    .project-card h3 {
+      margin: 0.35rem 0 1.25rem;
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-size: clamp(1.6rem, 5vw, 2.35rem);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+    }
+
+    .project-card.primary h3 {
+      color: #fff8f1;
+      font-size: clamp(2rem, 7vw, 3.25rem);
+    }
+
+    .reason {
+      max-width: 700px;
+      margin-bottom: 1.75rem;
+      color: #ddcfc4;
+      font-size: 1.05rem;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0 0 1.75rem;
+    }
+
+    .detail {
+      margin: 0;
+      padding: 1rem;
+      border-left: 2px solid var(--copper);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .detail dd {
+      margin: 0.25rem 0 0;
+      color: #e9ddd4;
+    }
+
+    .prompt {
+      overflow: hidden;
+      border: 1px solid rgba(240, 176, 126, 0.45);
+      border-radius: 0.8rem;
+      background: #100d0c;
+    }
+
+    .prompt-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.7rem 0.8rem 0.7rem 1rem;
+      border-bottom: 1px solid rgba(240, 176, 126, 0.2);
+      background: rgba(207, 130, 80, 0.06);
+    }
+
+    .copy-button {
+      min-height: 2.5rem;
+      padding: 0.5rem 0.85rem;
+      border: 1px solid var(--copper);
+      border-radius: 0.5rem;
+      background: transparent;
+      color: var(--copper-light);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .copy-button:hover {
+      background: var(--copper);
+      color: #140f0d;
+    }
+
+    .copy-button:active {
+      transform: translateY(1px);
+    }
+
+    .copy-button:focus-visible {
+      outline: 3px solid var(--ivory);
+      outline-offset: 3px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 1.15rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    code {
+      color: #f3e6dc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .next-up {
+      margin-bottom: 4.5rem;
+    }
+
+    .project-list {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .project-list .project-card {
+      box-shadow: 0 0.8rem 2.5rem rgba(0, 0, 0, 0.22);
+    }
+
+    .closing {
+      margin: 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+      color: var(--copper-light);
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-size: clamp(1.2rem, 4vw, 1.55rem);
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 1.25rem, 860px);
+        padding-top: 2.75rem;
+      }
+
+      .site-header {
+        margin-bottom: 3rem;
+      }
+
+      .start-here {
+        margin-bottom: 4rem;
+      }
+
+      .details {
+        grid-template-columns: 1fr;
+      }
+
+      .prompt-header {
+        align-items: flex-start;
+      }
+
+      .copy-button {
+        flex: 0 0 auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const copyText = async (text) => {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+      };
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const prompt = button.closest(".project-card").querySelector("code").textContent.trim();
+          const originalLabel = button.textContent;
+
+          try {
+            await copyText(prompt);
+            button.textContent = "Copied";
+          } catch {
+            button.textContent = "Select prompt";
+          }
+
+          window.setTimeout(() => {
+            button.textContent = originalLabel;
+          }, 1800);
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <main class="page">
+    <header class="site-header">
+      <p class="eyebrow">Clarity. Purpose. Direction.</p>
+      <h1>With Miss V's Anvil</h1>
+      <p class="intro">Six practical ways to shape what you have already built into something clearer, stronger, and easier to use.</p>
+    </header>
+
+    <section class="start-here" aria-labelledby="start-heading">
+      <p class="section-label">First project</p>
+      <h2 class="section-heading" id="start-heading">Start here</h2>
+
+      <article class="project-card primary">
+        <div class="project-content">
+          <p class="project-number">Project 1</p>
+          <h3>Fill Your Gaps</h3>
+          <p class="reason">Your business already has a clear point of view, a defined voice, and named offers, but open-questions.md still contains 40 unanswered decisions, including the audience problem that would make someone pay and the core promise across every offer. Filling those gaps first will turn the structure you already built into reliable instructions for every page, offer, and piece of content that comes next.</p>
+
+          <dl class="details">
+            <div class="detail">
+              <dt class="detail-label">You end up with</dt>
+              <dd>Real files instead of placeholders.</dd>
+            </div>
+            <div class="detail">
+              <dt class="detail-label">You learn</dt>
+              <dd>A standing rule that makes the folder improve itself.</dd>
+            </div>
+          </dl>
+
+          <div class="prompt">
+            <div class="prompt-header">
+              <p class="prompt-label">Full prompt</p>
+              <button class="copy-button" type="button" data-copy aria-label="Copy the Fill Your Gaps prompt">Copy prompt</button>
+            </div>
+            <pre><code>Check open-questions.md. Tell me how many are still unanswered, then ask me the top one. When I answer, write it into the right file, tick it off, and push to main.</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="next-up" aria-labelledby="next-heading">
+      <p class="section-label">Projects 2 through 6</p>
+      <h2 class="section-heading" id="next-heading">Next up</h2>
+
+      <div class="project-list">
+        <article class="project-card">
+          <div class="project-content">
+            <p class="project-number">Project 2</p>
+            <h3>Make It Check Your Voice</h3>
+            <dl class="details">
+              <div class="detail">
+                <dt class="detail-label">You end up with</dt>
+                <dd>A sharper voice file.</dd>
+              </div>
+              <div class="detail">
+                <dt class="detail-label">You learn</dt>
+                <dd>Your files are a standard to measure against, not just storage.</dd>
+              </div>
+            </dl>
+            <div class="prompt">
+              <div class="prompt-header">
+                <p class="prompt-label">Full prompt</p>
+                <button class="copy-button" type="button" data-copy aria-label="Copy the Make It Check Your Voice prompt">Copy prompt</button>
+              </div>
+              <pre><code>Read brand/voice.md. Then read this piece of my writing: [paste it]. Go through it and tell me every place it drifts from my voice file. Then tell me what my voice file is missing that would have caught those, add it to the file, and push to main.</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-content">
+            <p class="project-number">Project 3</p>
+            <h3>Let It Play Your Client</h3>
+            <dl class="details">
+              <div class="detail">
+                <dt class="detail-label">You end up with</dt>
+                <dd>The questions your messaging cannot answer yet.</dd>
+              </div>
+              <div class="detail">
+                <dt class="detail-label">You learn</dt>
+                <dd>You can hand Claude a role and use it to poke holes in your work.</dd>
+              </div>
+            </dl>
+            <div class="prompt">
+              <div class="prompt-header">
+                <p class="prompt-label">Full prompt</p>
+                <button class="copy-button" type="button" data-copy aria-label="Copy the Let It Play Your Client prompt">Copy prompt</button>
+              </div>
+              <pre><code>Read my files, then act as someone who is considering booking [my offer name] and hasn't decided yet. Ask me the questions that person would really ask before paying. One at a time, and wait for my answer. Any time you hit a question my files can't answer, stop and tell me that's a hole in my messaging.</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-content">
+            <p class="project-number">Project 4</p>
+            <h3>A Week of Content From One Recording</h3>
+            <dl class="details">
+              <div class="detail">
+                <dt class="detail-label">You end up with</dt>
+                <dd>Actual posts.</dd>
+              </div>
+              <div class="detail">
+                <dt class="detail-label">You learn</dt>
+                <dd>Feeding it your raw material instead of asking it to invent.</dd>
+              </div>
+            </dl>
+            <div class="prompt">
+              <div class="prompt-header">
+                <p class="prompt-label">Full prompt</p>
+                <button class="copy-button" type="button" data-copy aria-label="Copy the A Week of Content From One Recording prompt">Copy prompt</button>
+              </div>
+              <pre><code>Here's a transcript of me talking for a few minutes: [paste it]. Using my voice file and who-i-serve.md, pull out every idea in here worth a post. Give me the list first and wait. Then draft the three strongest in my voice, save them into a content folder, and push to main.</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-content">
+            <p class="project-number">Project 5</p>
+            <h3>Turn a Correction Into a Rule</h3>
+            <dl class="details">
+              <div class="detail">
+                <dt class="detail-label">You end up with</dt>
+                <dd>One rule that sticks forever.</dd>
+              </div>
+              <div class="detail">
+                <dt class="detail-label">You learn</dt>
+                <dd>Saying do this beats repeating don't do that.</dd>
+              </div>
+            </dl>
+            <div class="prompt">
+              <div class="prompt-header">
+                <p class="prompt-label">Full prompt</p>
+                <button class="copy-button" type="button" data-copy aria-label="Copy the Turn a Correction Into a Rule prompt">Copy prompt</button>
+              </div>
+              <pre><code>Here's a correction I keep giving you: [type it]. Rewrite it as a positive instruction that says what to do rather than what to avoid. Add it to CLAUDE.md and push to main.</code></pre>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-content">
+            <p class="project-number">Project 6</p>
+            <h3>Build One Small Tool</h3>
+            <dl class="details">
+              <div class="detail">
+                <dt class="detail-label">You end up with</dt>
+                <dd>A tracker or worksheet that actually works.</dd>
+              </div>
+              <div class="detail">
+                <dt class="detail-label">You learn</dt>
+                <dd>You can make software by describing it.</dd>
+              </div>
+            </dl>
+            <div class="prompt">
+              <div class="prompt-header">
+                <p class="prompt-label">Full prompt</p>
+                <button class="copy-button" type="button" data-copy aria-label="Copy the Build One Small Tool prompt">Copy prompt</button>
+              </div>
+              <pre><code>I want to build [describe the tool] for [who it's for]. Before you write anything, ask me what it needs to give the person at the end. Then build it as one self-contained HTML file with the styling inside it, save it in a folder named after it, and push to main.</code></pre>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <p class="closing">Work down the list in order. One project per sitting is enough.</p>
+  </main>
+</body>
+</html>
