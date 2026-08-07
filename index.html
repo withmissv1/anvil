@@ -59,25 +59,25 @@
       aspect-ratio: 1.85 / 1;
       border-radius: 50%;
       opacity: 0;
-      filter: blur(52px);
+      filter: blur(46px);
       mix-blend-mode: screen;
       background:
-        radial-gradient(ellipse at 38% 48%, rgba(248, 245, 240, 0.36) 0%, rgba(229, 226, 236, 0.20) 24%, transparent 61%),
-        radial-gradient(ellipse at 66% 42%, rgba(152, 132, 179, 0.16) 0%, transparent 52%),
-        radial-gradient(ellipse at 50% 68%, rgba(207, 130, 80, 0.11) 0%, transparent 48%);
+        radial-gradient(ellipse at 38% 48%, rgba(248, 245, 240, 0.48) 0%, rgba(229, 226, 236, 0.28) 24%, transparent 61%),
+        radial-gradient(ellipse at 66% 42%, rgba(152, 132, 179, 0.18) 0%, transparent 52%),
+        radial-gradient(ellipse at 50% 68%, rgba(207, 130, 80, 0.08) 0%, transparent 48%);
       will-change: transform, opacity;
       animation: mist-breathe 20s ease-in-out infinite;
     }
 
     .mist-one {
-      top: -12%;
-      left: -27%;
+      top: -6%;
+      left: -16%;
       transform: rotate(-9deg);
     }
 
     .mist-two {
-      top: 31%;
-      right: -34%;
+      top: 24%;
+      right: -18%;
       width: clamp(30rem, 66vw, 66rem);
       transform: rotate(13deg);
       animation-delay: -7s;
@@ -85,8 +85,8 @@
     }
 
     .mist-three {
-      bottom: -18%;
-      left: -24%;
+      bottom: -10%;
+      left: -14%;
       width: clamp(28rem, 62vw, 62rem);
       transform: rotate(5deg);
       animation-delay: -14s;
@@ -354,7 +354,7 @@
         opacity: 0.28;
       }
       50% {
-        opacity: 0.48;
+        opacity: 0.56;
         transform: translate3d(4%, -2%, 0) scale(1.08) rotate(1deg);
       }
       72% {
