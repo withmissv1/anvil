@@ -45,48 +45,74 @@
     }
 
 
-    .petal-layer {
+    .atmosphere-layer {
       position: fixed;
-      inset: 0;
+      inset: -12%;
       z-index: 0;
       overflow: hidden;
       pointer-events: none;
     }
 
-    .petal {
+    .mist {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: var(--size);
-      height: var(--height);
-      border-radius: 82% 18% 76% 24% / 72% 30% 70% 28%;
-      background:
-        radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.98), rgba(250, 247, 241, 0.86) 42%, rgba(225, 217, 207, 0.5) 72%, rgba(255, 255, 255, 0.14) 100%);
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.09),
-        0 0 10px rgba(255, 249, 240, 0.14);
-      filter: blur(0.15px);
-      opacity: 0;
-      animation: petal-fall var(--duration) linear var(--delay) infinite;
-      will-change: transform, opacity;
-    }
-
-    .petal::after {
-      position: absolute;
-      inset: 18% 12% 18% 24%;
+      width: clamp(34rem, 72vw, 72rem);
+      aspect-ratio: 1.85 / 1;
       border-radius: 50%;
-      background: linear-gradient(110deg, transparent 38%, rgba(194, 180, 166, 0.34) 50%, transparent 62%);
+      opacity: 0;
+      filter: blur(52px);
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(ellipse at 38% 48%, rgba(248, 245, 240, 0.36) 0%, rgba(229, 226, 236, 0.20) 24%, transparent 61%),
+        radial-gradient(ellipse at 66% 42%, rgba(152, 132, 179, 0.16) 0%, transparent 52%),
+        radial-gradient(ellipse at 50% 68%, rgba(207, 130, 80, 0.11) 0%, transparent 48%);
+      will-change: transform, opacity;
+      animation: mist-breathe 20s ease-in-out infinite;
+    }
+
+    .mist-one {
+      top: -12%;
+      left: -27%;
+      transform: rotate(-9deg);
+    }
+
+    .mist-two {
+      top: 31%;
+      right: -34%;
+      width: clamp(30rem, 66vw, 66rem);
+      transform: rotate(13deg);
+      animation-delay: -7s;
+      animation-direction: reverse;
+    }
+
+    .mist-three {
+      bottom: -18%;
+      left: -24%;
+      width: clamp(28rem, 62vw, 62rem);
+      transform: rotate(5deg);
+      animation-delay: -14s;
+    }
+
+    .project-card::after {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      z-index: 3;
+      width: 34%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 244, 232, 0.78), rgba(240, 176, 126, 0.52), transparent);
+      box-shadow: 0 0 10px rgba(240, 176, 126, 0.18);
       content: "";
-      transform: rotate(-8deg);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-180%);
+      animation: border-glint 20s ease-in-out infinite;
     }
 
-    .petal:nth-child(3n) {
-      border-radius: 68% 32% 84% 16% / 78% 24% 76% 22%;
-    }
-
-    .petal:nth-child(4n) {
-      filter: blur(0.55px);
-    }
+    .project-list .project-card:nth-child(1)::after { animation-delay: -3s; }
+    .project-list .project-card:nth-child(2)::after { animation-delay: -6s; }
+    .project-list .project-card:nth-child(3)::after { animation-delay: -9s; }
+    .project-list .project-card:nth-child(4)::after { animation-delay: -12s; }
+    .project-list .project-card:nth-child(5)::after { animation-delay: -15s; }
 
     button,
     code {
@@ -317,26 +343,48 @@
       text-align: center;
     }
 
-    @keyframes petal-fall {
-      0% {
+    @keyframes mist-breathe {
+      0%,
+      10%,
+      100% {
         opacity: 0;
-        transform: translate3d(var(--x0), -12vh, 0) rotate(var(--r0)) scale(var(--scale));
+        transform: translate3d(-5%, 2%, 0) scale(0.88) rotate(-8deg);
       }
-      8% {
-        opacity: var(--opacity);
+      32% {
+        opacity: 0.28;
       }
-      34% {
-        transform: translate3d(var(--x1), 27vh, 0) rotate(var(--r1)) scale(var(--scale));
+      50% {
+        opacity: 0.48;
+        transform: translate3d(4%, -2%, 0) scale(1.08) rotate(1deg);
       }
-      62% {
-        transform: translate3d(var(--x2), 63vh, 0) rotate(var(--r2)) scale(var(--scale));
+      72% {
+        opacity: 0.16;
       }
-      91% {
-        opacity: var(--opacity);
+      86% {
+        opacity: 0;
+        transform: translate3d(10%, 3%, 0) scale(1.18) rotate(7deg);
+      }
+    }
+
+    @keyframes border-glint {
+      0%,
+      68% {
+        opacity: 0;
+        transform: translateX(-180%);
+      }
+      72% {
+        opacity: 0.08;
+      }
+      76% {
+        opacity: 0.9;
+      }
+      82% {
+        opacity: 0;
+        transform: translateX(390%);
       }
       100% {
         opacity: 0;
-        transform: translate3d(var(--x3), 112vh, 0) rotate(var(--r3)) scale(var(--scale));
+        transform: translateX(390%);
       }
     }
 
@@ -376,47 +424,19 @@
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
       }
+
+      .mist {
+        opacity: 0.12;
+        animation: none !important;
+      }
+
+      .project-card::after {
+        display: none;
+      }
     }
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const petalLayer = document.querySelector(".petal-layer");
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (petalLayer && !reducedMotion) {
-        const fragment = document.createDocumentFragment();
-        const petalCount = window.innerWidth < 640 ? 12 : 18;
-
-        for (let index = 0; index < petalCount; index += 1) {
-          const petal = document.createElement("span");
-          const start = Math.random() * 108 - 4;
-          const sway = 2.5 + Math.random() * 7;
-          const direction = Math.random() > 0.5 ? 1 : -1;
-          const size = 10 + Math.random() * 13;
-          const duration = 24 + Math.random() * 18;
-          const rotation = Math.random() * 180;
-
-          petal.className = "petal";
-          petal.style.setProperty("--size", `${size.toFixed(1)}px`);
-          petal.style.setProperty("--height", `${(size * (0.5 + Math.random() * 0.28)).toFixed(1)}px`);
-          petal.style.setProperty("--duration", `${duration.toFixed(1)}s`);
-          petal.style.setProperty("--delay", `-${(Math.random() * duration).toFixed(1)}s`);
-          petal.style.setProperty("--opacity", (0.42 + Math.random() * 0.34).toFixed(2));
-          petal.style.setProperty("--scale", (0.78 + Math.random() * 0.45).toFixed(2));
-          petal.style.setProperty("--x0", `${start.toFixed(1)}vw`);
-          petal.style.setProperty("--x1", `${(start + sway * direction).toFixed(1)}vw`);
-          petal.style.setProperty("--x2", `${(start - sway * 0.55 * direction).toFixed(1)}vw`);
-          petal.style.setProperty("--x3", `${(start + sway * 0.35 * direction).toFixed(1)}vw`);
-          petal.style.setProperty("--r0", `${rotation.toFixed(0)}deg`);
-          petal.style.setProperty("--r1", `${(rotation + 145 * direction).toFixed(0)}deg`);
-          petal.style.setProperty("--r2", `${(rotation + 310 * direction).toFixed(0)}deg`);
-          petal.style.setProperty("--r3", `${(rotation + 520 * direction).toFixed(0)}deg`);
-          fragment.appendChild(petal);
-        }
-
-        petalLayer.appendChild(fragment);
-      }
-
       const copyText = async (text) => {
         if (navigator.clipboard && window.isSecureContext) {
           await navigator.clipboard.writeText(text);
@@ -455,7 +475,11 @@
   </script>
 </head>
 <body>
-  <div class="petal-layer" aria-hidden="true"></div>
+  <div class="atmosphere-layer" aria-hidden="true">
+    <span class="mist mist-one"></span>
+    <span class="mist mist-two"></span>
+    <span class="mist mist-three"></span>
+  </div>
   <main class="page">
     <header class="site-header">
       <p class="eyebrow">Clarity. Purpose. Direction.</p>
