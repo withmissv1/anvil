@@ -30,8 +30,11 @@
     }
 
     body {
+      position: relative;
+      isolation: isolate;
       margin: 0;
       min-width: 320px;
+      overflow-x: hidden;
       background:
         radial-gradient(circle at 85% 3%, rgba(226, 84, 50, 0.13), transparent 28rem),
         radial-gradient(circle at 8% 18%, rgba(207, 130, 80, 0.08), transparent 24rem),
@@ -41,12 +44,58 @@
       line-height: 1.65;
     }
 
+
+    .petal-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .petal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--size);
+      height: var(--height);
+      border-radius: 82% 18% 76% 24% / 72% 30% 70% 28%;
+      background:
+        radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.98), rgba(250, 247, 241, 0.86) 42%, rgba(225, 217, 207, 0.5) 72%, rgba(255, 255, 255, 0.14) 100%);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.09),
+        0 0 10px rgba(255, 249, 240, 0.14);
+      filter: blur(0.15px);
+      opacity: 0;
+      animation: petal-fall var(--duration) linear var(--delay) infinite;
+      will-change: transform, opacity;
+    }
+
+    .petal::after {
+      position: absolute;
+      inset: 18% 12% 18% 24%;
+      border-radius: 50%;
+      background: linear-gradient(110deg, transparent 38%, rgba(194, 180, 166, 0.34) 50%, transparent 62%);
+      content: "";
+      transform: rotate(-8deg);
+    }
+
+    .petal:nth-child(3n) {
+      border-radius: 68% 32% 84% 16% / 78% 24% 76% 22%;
+    }
+
+    .petal:nth-child(4n) {
+      filter: blur(0.55px);
+    }
+
     button,
     code {
       font: inherit;
     }
 
     .page {
+      position: relative;
+      z-index: 1;
       width: min(100% - 2rem, 860px);
       margin: 0 auto;
       padding: 4.5rem 0 3rem;
@@ -268,6 +317,29 @@
       text-align: center;
     }
 
+    @keyframes petal-fall {
+      0% {
+        opacity: 0;
+        transform: translate3d(var(--x0), -12vh, 0) rotate(var(--r0)) scale(var(--scale));
+      }
+      8% {
+        opacity: var(--opacity);
+      }
+      34% {
+        transform: translate3d(var(--x1), 27vh, 0) rotate(var(--r1)) scale(var(--scale));
+      }
+      62% {
+        transform: translate3d(var(--x2), 63vh, 0) rotate(var(--r2)) scale(var(--scale));
+      }
+      91% {
+        opacity: var(--opacity);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--x3), 112vh, 0) rotate(var(--r3)) scale(var(--scale));
+      }
+    }
+
     @media (max-width: 640px) {
       .page {
         width: min(100% - 1.25rem, 860px);
@@ -299,6 +371,8 @@
       *,
       *::before,
       *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
       }
@@ -306,6 +380,43 @@
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const petalLayer = document.querySelector(".petal-layer");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (petalLayer && !reducedMotion) {
+        const fragment = document.createDocumentFragment();
+        const petalCount = window.innerWidth < 640 ? 12 : 18;
+
+        for (let index = 0; index < petalCount; index += 1) {
+          const petal = document.createElement("span");
+          const start = Math.random() * 108 - 4;
+          const sway = 2.5 + Math.random() * 7;
+          const direction = Math.random() > 0.5 ? 1 : -1;
+          const size = 10 + Math.random() * 13;
+          const duration = 24 + Math.random() * 18;
+          const rotation = Math.random() * 180;
+
+          petal.className = "petal";
+          petal.style.setProperty("--size", `${size.toFixed(1)}px`);
+          petal.style.setProperty("--height", `${(size * (0.5 + Math.random() * 0.28)).toFixed(1)}px`);
+          petal.style.setProperty("--duration", `${duration.toFixed(1)}s`);
+          petal.style.setProperty("--delay", `-${(Math.random() * duration).toFixed(1)}s`);
+          petal.style.setProperty("--opacity", (0.42 + Math.random() * 0.34).toFixed(2));
+          petal.style.setProperty("--scale", (0.78 + Math.random() * 0.45).toFixed(2));
+          petal.style.setProperty("--x0", `${start.toFixed(1)}vw`);
+          petal.style.setProperty("--x1", `${(start + sway * direction).toFixed(1)}vw`);
+          petal.style.setProperty("--x2", `${(start - sway * 0.55 * direction).toFixed(1)}vw`);
+          petal.style.setProperty("--x3", `${(start + sway * 0.35 * direction).toFixed(1)}vw`);
+          petal.style.setProperty("--r0", `${rotation.toFixed(0)}deg`);
+          petal.style.setProperty("--r1", `${(rotation + 145 * direction).toFixed(0)}deg`);
+          petal.style.setProperty("--r2", `${(rotation + 310 * direction).toFixed(0)}deg`);
+          petal.style.setProperty("--r3", `${(rotation + 520 * direction).toFixed(0)}deg`);
+          fragment.appendChild(petal);
+        }
+
+        petalLayer.appendChild(fragment);
+      }
+
       const copyText = async (text) => {
         if (navigator.clipboard && window.isSecureContext) {
           await navigator.clipboard.writeText(text);
@@ -344,6 +455,7 @@
   </script>
 </head>
 <body>
+  <div class="petal-layer" aria-hidden="true"></div>
   <main class="page">
     <header class="site-header">
       <p class="eyebrow">Clarity. Purpose. Direction.</p>
