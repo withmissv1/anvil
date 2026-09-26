@@ -3,21 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pontano+Sans:wght@400;500;600;700&family=Tenor+Sans&display=swap" rel="stylesheet">
   <meta name="description" content="With Miss V's ordered list of projects to build next with Claude.">
   <title>With Miss V's Anvil</title>
   <style>
     :root {
       color-scheme: dark;
-      --charcoal: #171311;
-      --charcoal-soft: #211a17;
-      --charcoal-raised: #2a211d;
-      --copper: #cf8250;
-      --copper-light: #f0b07e;
-      --ember: #e25432;
-      --ivory: #f5eadf;
-      --muted: #bcaea3;
-      --line: rgba(207, 130, 80, 0.27);
-      --line-strong: rgba(240, 176, 126, 0.62);
+      --coffee: #040301;
+      --walnut: #201C13;
+      --walnut-raised: #201C13;
+      --bronze: #9C7644;
+      --linen: #C6BAA4;
+      --ivory: #E8E1D3;
+      --muted: #C6BAA4;
+      --line: rgba(156, 118, 68, 0.27);
+      --line-strong: rgba(198, 186, 164, 0.62);
       --shadow: rgba(0, 0, 0, 0.32);
     }
 
@@ -36,11 +38,11 @@
       min-width: 320px;
       overflow-x: hidden;
       background:
-        radial-gradient(circle at 85% 3%, rgba(226, 84, 50, 0.13), transparent 28rem),
-        radial-gradient(circle at 8% 18%, rgba(207, 130, 80, 0.08), transparent 24rem),
-        var(--charcoal);
+        radial-gradient(circle at 85% 3%, rgba(156, 118, 68, 0.13), transparent 28rem),
+        radial-gradient(circle at 8% 18%, rgba(156, 118, 68, 0.08), transparent 24rem),
+        var(--coffee);
       color: var(--ivory);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: "Pontano Sans", "Segoe UI", Arial, sans-serif;
       line-height: 1.65;
     }
 
@@ -62,9 +64,9 @@
       filter: blur(46px);
       mix-blend-mode: screen;
       background:
-        radial-gradient(ellipse at 38% 48%, rgba(248, 245, 240, 0.48) 0%, rgba(229, 226, 236, 0.28) 24%, transparent 61%),
-        radial-gradient(ellipse at 66% 42%, rgba(152, 132, 179, 0.18) 0%, transparent 52%),
-        radial-gradient(ellipse at 50% 68%, rgba(207, 130, 80, 0.08) 0%, transparent 48%);
+        radial-gradient(ellipse at 38% 48%, rgba(232, 225, 211, 0.48) 0%, rgba(198, 186, 164, 0.28) 24%, transparent 61%),
+        radial-gradient(ellipse at 66% 42%, rgba(232, 225, 211, 0.18) 0%, transparent 52%),
+        radial-gradient(ellipse at 50% 68%, rgba(156, 118, 68, 0.08) 0%, transparent 48%);
       will-change: transform, opacity;
       animation: mist-breathe 20s ease-in-out infinite;
     }
@@ -99,8 +101,8 @@
       z-index: 3;
       width: 34%;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 244, 232, 0.78), rgba(240, 176, 126, 0.52), transparent);
-      box-shadow: 0 0 10px rgba(240, 176, 126, 0.18);
+      background: linear-gradient(90deg, transparent, rgba(232, 225, 211, 0.78), rgba(198, 186, 164, 0.52), transparent);
+      box-shadow: 0 0 10px rgba(198, 186, 164, 0.18);
       content: "";
       opacity: 0;
       pointer-events: none;
@@ -137,7 +139,7 @@
     .detail-label,
     .prompt-label {
       margin: 0;
-      color: var(--copper-light);
+      color: var(--linen);
       font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.14em;
@@ -160,10 +162,10 @@
     h1 {
       max-width: 720px;
       margin: 0.75rem 0 1rem;
-      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-family: "Tenor Sans", Georgia, serif;
       font-size: clamp(3rem, 10vw, 5.75rem);
       font-weight: 500;
-      letter-spacing: -0.045em;
+      letter-spacing: -0.02em;
       line-height: 0.98;
     }
 
@@ -176,10 +178,10 @@
 
     .section-heading {
       margin: 0.45rem 0 1.5rem;
-      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-family: "Tenor Sans", Georgia, serif;
       font-size: clamp(2rem, 6vw, 3.2rem);
       font-weight: 500;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.015em;
       line-height: 1.05;
     }
 
@@ -192,17 +194,17 @@
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 1.25rem;
-      background: rgba(33, 26, 23, 0.92);
+      background: rgba(32, 28, 19, 0.92);
       box-shadow: 0 1.25rem 3.5rem var(--shadow);
     }
 
     .project-card.primary {
       border-color: var(--line-strong);
       background:
-        linear-gradient(145deg, rgba(226, 84, 50, 0.11), transparent 44%),
-        var(--charcoal-soft);
+        linear-gradient(145deg, rgba(156, 118, 68, 0.11), transparent 44%),
+        var(--walnut);
       box-shadow:
-        0 0 0 1px rgba(226, 84, 50, 0.08),
+        0 0 0 1px rgba(156, 118, 68, 0.08),
         0 1.75rem 5rem rgba(0, 0, 0, 0.42);
     }
 
@@ -212,7 +214,7 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, var(--ember), var(--copper-light));
+      background: linear-gradient(90deg, var(--bronze), var(--linen));
       content: "";
     }
 
@@ -222,22 +224,22 @@
 
     .project-card h3 {
       margin: 0.35rem 0 1.25rem;
-      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      font-family: "Tenor Sans", Georgia, serif;
       font-size: clamp(1.6rem, 5vw, 2.35rem);
       font-weight: 500;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.015em;
       line-height: 1.12;
     }
 
     .project-card.primary h3 {
-      color: #fff8f1;
+      color: var(--ivory);
       font-size: clamp(2rem, 7vw, 3.25rem);
     }
 
     .reason {
       max-width: 700px;
       margin-bottom: 1.75rem;
-      color: #ddcfc4;
+      color: var(--linen);
       font-size: 1.05rem;
     }
 
@@ -251,20 +253,20 @@
     .detail {
       margin: 0;
       padding: 1rem;
-      border-left: 2px solid var(--copper);
+      border-left: 2px solid var(--bronze);
       background: rgba(255, 255, 255, 0.025);
     }
 
     .detail dd {
       margin: 0.25rem 0 0;
-      color: #e9ddd4;
+      color: var(--ivory);
     }
 
     .prompt {
       overflow: hidden;
-      border: 1px solid rgba(240, 176, 126, 0.45);
+      border: 1px solid rgba(198, 186, 164, 0.45);
       border-radius: 0.8rem;
-      background: #100d0c;
+      background: var(--coffee);
     }
 
     .prompt-header {
@@ -273,17 +275,17 @@
       justify-content: space-between;
       gap: 1rem;
       padding: 0.7rem 0.8rem 0.7rem 1rem;
-      border-bottom: 1px solid rgba(240, 176, 126, 0.2);
-      background: rgba(207, 130, 80, 0.06);
+      border-bottom: 1px solid rgba(198, 186, 164, 0.2);
+      background: rgba(156, 118, 68, 0.06);
     }
 
     .copy-button {
       min-height: 2.5rem;
       padding: 0.5rem 0.85rem;
-      border: 1px solid var(--copper);
+      border: 1px solid var(--bronze);
       border-radius: 0.5rem;
       background: transparent;
-      color: var(--copper-light);
+      color: var(--linen);
       cursor: pointer;
       font-size: 0.8rem;
       font-weight: 700;
@@ -292,8 +294,8 @@
     }
 
     .copy-button:hover {
-      background: var(--copper);
-      color: #140f0d;
+      background: var(--bronze);
+      color: var(--coffee);
     }
 
     .copy-button:active {
@@ -314,7 +316,7 @@
     }
 
     code {
-      color: #f3e6dc;
+      color: var(--ivory);
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 0.88rem;
       line-height: 1.7;
@@ -337,8 +339,8 @@
       margin: 0;
       padding-top: 2rem;
       border-top: 1px solid var(--line);
-      color: var(--copper-light);
-      font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+      color: var(--linen);
+      font-family: "Tenor Sans", Georgia, serif;
       font-size: clamp(1.2rem, 4vw, 1.55rem);
       text-align: center;
     }
